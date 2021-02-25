@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<popup:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:popup="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+             x:Class="Pokedex.PokemonDetailPopUpPage">
+    <popup:PopupPage.Content>
+            <Frame CornerRadius="10" BackgroundColor="Transparent"
+               VerticalOptions="FillAndExpand"
+               HorizontalOptions="FillAndExpand"
+               Margin="30,140,30,140">
+            <StackLayout BackgroundColor="White">
+                <Frame BackgroundColor="#ff4040" HorizontalOptions="FillAndExpand" VerticalOptions="Fill" HeightRequest="25">
+                    <Label Text="{Binding SelectedPokemon.Name}" FontSize="Large" TextColor="White" VerticalOptions="CenterAndExpand" HorizontalOptions="Center"></Label>
+                </Frame>
+                <StackLayout HeightRequest="200">
+                    <Image HorizontalOptions="FillAndExpand" 
+                           VerticalOptions="FillAndExpand"
+                           Source="{Binding SelectedPokemon.UrlPhoto}"
+                           BackgroundColor="Transparent">
+                    </Image>
+                </StackLayout>
+                <StackLayout>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="20"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+
+                        <Label Grid.Column="0" 
+                               Grid.Row="0" 
+                               Text="Id"
+                               FontAttributes="Bold"
+                               FontSize="Medium"
+                               HorizontalOptions="CenterAndExpand"
+                               TextColor="Black">
+                        </Label>
+                        <Label Grid.Column="0" 
+                               Grid.Row="1" 
+                               HorizontalOptions="CenterAndExpand"
+                               FontSize="Medium"
+                               Text="{Binding SelectedPokemon.Id}">
+                        </Label>
+                        <Label Grid.Column="1" 
+                               Grid.Row="0" 
+                               Text="Type"
+                               FontAttributes="Bold"
+                               FontSize="Medium"
+                               HorizontalOptions="CenterAndExpand"
+                               TextColor="Black">
+                        </Label>
+                        <Label Grid.Column="1" 
+                               Grid.Row="1" 
+                               HorizontalOptions="CenterAndExpand"
+                               FontSize="Medium"
+                               Text="{Binding Type}">
+                        </Label>
+                        <Frame
+                            Grid.Column="0"
+                            Grid.Row="2"
+                            BackgroundColor="Transparent"></Frame>
+                        
+                        <Label Grid.Column="0" 
+                               Grid.Row="3" 
+                               Text="Weight"
+                               FontAttributes="Bold"
+                               FontSize="Medium"
+                               HorizontalOptions="CenterAndExpand"
+                               TextColor="Black">
+                        </Label>
+                        <Label Grid.Column="0" 
+                               Grid.Row="4" 
+                               HorizontalOptions="CenterAndExpand"
+                               FontSize="Medium"
+                               Text="{Binding SelectedPokemon.Weight}">
+                        </Label>
+                        <Label Grid.Column="1"
+                               Grid.Row="3" 
+                               Text="Heigth"
+                               FontAttributes="Bold"
+                               FontSize="Medium"
+                               HorizontalOptions="CenterAndExpand"
+                               TextColor="Black">
+                        </Label>
+                        <Label Grid.Column="1" 
+                               Grid.Row="4" 
+                               HorizontalOptions="CenterAndExpand"
+                               FontSize="Medium"
+                               Text="{Binding SelectedPokemon.Height}">
+                        </Label>
+                    </Grid>
+                </StackLayout>
+            </StackLayout>
+        </Frame>
+    </popup:PopupPage.Content>
+</popup:PopupPage>
