@@ -7,10 +7,11 @@ using Android.Views;
 using Android.Widget;
 using Android.OS;
 using System.Globalization;
+using FFImageLoading.Forms.Platform;
 
 namespace Pokedex.Droid
 {
-    [Activity(Label = "Pokedex", Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize )]
+    [Activity(Label = "Pokedex", Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = false, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize )]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
         protected override async void OnCreate(Bundle savedInstanceState)
@@ -19,11 +20,10 @@ namespace Pokedex.Droid
             ToolbarResource = Resource.Layout.Toolbar;
             CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("pt-BR");
 
-
             base.OnCreate(savedInstanceState);
+            CachedImageRenderer.Init(enableFastRenderer: true);
 
             Rg.Plugins.Popup.Popup.Init(this);
-
 
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);

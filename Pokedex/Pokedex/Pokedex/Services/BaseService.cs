@@ -11,7 +11,7 @@ namespace Pokedex.Service
 {
     public class BaseService : IBaseService
     {
-        private string Controller { get; set; }
+        public string Controller { get; set; }
         public BaseService(string _controller)
         {
             Controller = _controller;

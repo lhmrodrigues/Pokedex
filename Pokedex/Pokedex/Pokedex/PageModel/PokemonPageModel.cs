@@ -6,6 +6,7 @@ using Pokedex.Util;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -13,77 +14,124 @@ using Xamarin.Forms;
 
 namespace Pokedex
 {
-    public class PokemonPageModel: BasePageModel
+    public class PokemonPageModel : BasePageModel
     {
-        public ObservableCollection<Pokemon> ObservablePokemonList { get; set; }
-        public ObservableCollection<string> ObservableTypeList { get; set; }
-        public string Pesquisa { get; set; }
-
-        public ICommand typeSearchCommannd => new Command(async () => await TypeSearchCommannd());
-        public ICommand pokemmonDetails => new Command<Pokemon>(async (pokemonDetails) => await PokemonDetailsAsync(pokemonDetails)); // mudar a chama
 
         private readonly IPokemonService _pokemonService;
         private readonly ITypeService _typeService;
+
+        public ObservableCollection<Pokemon> ObservablePokemonList { get; set; }
+        public ObservableCollection<string> ObservableTypeList { get; set; }
+        public string InfoList { get; set; }
+        public string Pesquisa { get; set; }
+        public int IndexList { get; set; }
+        public int TotalPokemon { get; set; }
+
+        public ICommand nextCommannd => new Command(async () => await NextCommannd());
+        public ICommand previousCommannd => new Command(async () => await PreviousCommannd());
+        public ICommand typeSearchCommannd => new Command(async () => await TypeSearchCommannd());
+        public ICommand pokemmonDetails => new Command<Pokemon>(async (pokemonDetails) => await PokemonDetailsAsync(pokemonDetails)); // mudar a chama
+        public ICommand starPokemon => new Command<Pokemon>(async (pokemonDetails) => await StarPokemon(pokemonDetails)); // mudar a chama
 
         public PokemonPageModel(IPokemonService pokemonService,
             ITypeService typeService)
         {
             _pokemonService = pokemonService;
             _typeService = typeService;
-            SetTypeList();
         }
 
         public override async void Init(object initData)
         {
-            await TypeSearchCommannd();
-            await SearchRangeAndSetValues(0);
+            SetTypeList();
+            SearchRangeAndSetValues(0);
         }
-
-        public async Task SearchRangeAndSetValues(int index)
+        public async void SearchRangeAndSetValues(int index)
         {
-            List<Pokemon> pokemonList = new List<Pokemon>();
-            var result = await _pokemonService.GetFromApi<ListPaginationInfo>($"/?limit={index}&offset={UrlConfiguration.OffSet}");
+            if (IsBusy) return;
 
-            foreach (var results in result.Results)
+            try
             {
-                Pokemon pokemon = await _pokemonService.GetFromApi<Pokemon>($"/{results.Name}/");
-                pokemon.Name = pokemon.Name.ToUpper();
-                pokemon.Url = pokemon.Sprites.Front_Default;
+                IsBusy = true;
 
-                pokemonList.Add(pokemon);
+                List<Pokemon> pokemonList = new List<Pokemon>();
+                var resultRange = await _pokemonService.GetListRange(index);
+
+                InfoList = $"{index + 1} to {index + 20}";
+                TotalPokemon = resultRange.Count;
+
+                foreach (var results in resultRange.Results)
+                {
+                    Pokemon pokemon = await _pokemonService.GetPokemon(results.Name);
+                    pokemon.Name = pokemon.Name.ToUpper();
+                    pokemon.Url = pokemon.Sprites.Front_Default;
+                    pokemon.IsFavorite = "star.png";
+                    pokemonList.Add(pokemon);
+                }
+
+                ObservablePokemonList = new ObservableCollection<Pokemon>(pokemonList);
             }
-
-            ObservablePokemonList = new ObservableCollection<Pokemon>(pokemonList);
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+            finally
+            {
+                IsBusy = false;
+            }
         }
-
         public async void SetTypeList()
         {
-            List<string> aux = new List<string>();
-            ListPaginationInfo typePokemonList = await _typeService.GetFromApi<ListPaginationInfo>("/");
-
-            foreach(var type in typePokemonList.Results)
+            try
             {
-                aux.Add(type.Name.ToUpper());
-            }
+                List<string> aux = new List<string>();
+                ListPaginationInfo typePokemonList = await _typeService.GetListType();
 
-            ObservableTypeList = new ObservableCollection<string>(aux);
+                foreach (var type in typePokemonList.Results)
+                {
+                    aux.Add(type.Name.ToUpper());
+                }
+
+                ObservableTypeList = new ObservableCollection<string>(aux);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+        }
+        public async void GetListPokemonType()
+        {
+            //await _typeService.GetListPokemonType(Pesquisa);
         }
         private async Task TypeSearchCommannd()
         {
-            string requesturl = UrlConfiguration.BaseUrl() + "type" + "/normal/";
-            var a = await requesturl.GetJsonAsync<PokemonType>();
-
-
-
-            //IEnumerable<Pokemon> pokemonList = await _typeService.GetFromApi<IEnumerable<Pokemon>>($"/normal/");
-
-            //IEnumerable<Pokemon> pokemonList = await _typeService.GetFromApi<IEnumerable<Pokemon>>($"/{Pesquisa.ToLower()}/");
-            int b = 2;
+            GetListPokemonType();
         }
-
         private async Task PokemonDetailsAsync(Pokemon pokemon)
         {
             await CoreMethods.PushPopupPageModel<PokemonDetailPopUpPageModel>(pokemon);
+        }
+        private async Task StarPokemon(Pokemon pokemon)
+        {
+            if (pokemon.IsFavorite == "star.png")
+                pokemon.IsFavorite = "starYellow.png";
+            else
+                pokemon.IsFavorite = "star.png";
+        }
+        private async Task NextCommannd()
+        {
+            IndexList += 20;
+            if (IndexList > TotalPokemon)
+                return;
+
+            SearchRangeAndSetValues(IndexList);
+        }
+        private async Task PreviousCommannd()
+        {
+            IndexList -= 20;
+            if (IndexList < 0)
+                IndexList = 0;
+
+            SearchRangeAndSetValues(IndexList);
         }
     }
 }

@@ -133,4 +133,10 @@
       <Name>Pokedex</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\screenshots\star.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\screenshots\starYellow.png" />
+  </ItemGroup>
 </Project>

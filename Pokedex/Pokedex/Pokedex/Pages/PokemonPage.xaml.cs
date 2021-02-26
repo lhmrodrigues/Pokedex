@@ -20,5 +20,17 @@ namespace Pokedex
                 ((ListView)sender).SelectedItem = null;
             };
         }
+
+        private void ImageButton_Clicked(object sender, EventArgs e)
+        {
+            var imageButton = sender as Xamarin.Forms.ImageButton;
+            string a = imageButton.Source.ToString();
+
+            if (a == "File: star.png")
+                imageButton.Source = "starYellow.png";
+            else
+                imageButton.Source = "star.png";
+
+        }
     }
 }

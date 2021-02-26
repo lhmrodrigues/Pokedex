@@ -11,13 +11,10 @@
                    TextColor="White"/>
         </StackLayout>
     </NavigationPage.TitleView>
-    
+
     <ContentPage.Content>
         <StackLayout>
-            <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}"
-                    VerticalOptions="Center" HorizontalOptions="Center" Color="#156384" />
-            <!--<Label IsVisible="{Binding Results}" Text="Nenhum Resultado encontrado" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"/>-->
-            <StackLayout HeightRequest="100" BackgroundColor="#ff4040">
+            <StackLayout HeightRequest="60" BackgroundColor="#ff4040">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
@@ -26,52 +23,100 @@
                     <Picker Grid.Column="0"
                             ItemsSource="{Binding ObservableTypeList}" 
                             SelectedItem="{Binding Pesquisa}" 
-                            TextColor="White"/>
-                    <Button Grid.Column="1" Text="OK" 
+                            TextColor="White"
+                            TitleColor="Gray"
+                            Title="Select Type"/>
+                    <Button Grid.Column="1" 
+                            Text="OK" 
                             BackgroundColor="LightYellow" 
                             Margin="2"
                             Command="{Binding typeSearchCommannd}">
                     </Button>
                 </Grid>
-
             </StackLayout>
+            <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}"
+                    VerticalOptions="Center" HorizontalOptions="Center" Color="#ff4040" />
             <ScrollView>
-                <ListView RowHeight="80" Margin="1" ItemsSource="{Binding ObservablePokemonList}" x:Name="listPokemon" Background="#156384" >
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <ViewCell>
-                                <Frame HorizontalOptions="FillAndExpand" VerticalOptions="Center" >
-                                    <StackLayout >
-                                        <StackLayout.GestureRecognizers>
-                                            <TapGestureRecognizer Command="{Binding Path=BindingContext.pokemmonDetails, Source={x:Reference PokemonView}}" CommandParameter="{Binding .}" />
-                                        </StackLayout.GestureRecognizers>
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="70"/>
-                                                <ColumnDefinition Width="*"/>
-                                                <ColumnDefinition Width="40"/>
-                                            </Grid.ColumnDefinitions>
-                                            <Frame Grid.Column="2"
-                                               HorizontalOptions="Start"
-                                               BackgroundColor="#156384"></Frame>
-                                            <Label Grid.Column="1"
+                    <ListView RowHeight="80" Margin="1" ItemsSource="{Binding ObservablePokemonList}" x:Name="listPokemon" Background="White" >
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <Frame HorizontalOptions="FillAndExpand" VerticalOptions="Center" >
+                                        <StackLayout >
+                                            <StackLayout.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding Path=BindingContext.pokemmonDetails, Source={x:Reference PokemonView}}" CommandParameter="{Binding .}" />
+                                            </StackLayout.GestureRecognizers>
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="70"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="40"/>
+                                                </Grid.ColumnDefinitions>
+                                                <Image 
+                                                HeightRequest="80"
+                                                Grid.Column="0"
+                                               Source="{Binding UrlPhoto}"
+                                               BackgroundColor="Transparent">
+                                                </Image>
+                                                <Label Grid.Column="1"
                                                FontSize="Medium"
                                                HorizontalOptions="StartAndExpand"
                                                Margin="30,0,0,0"
                                                VerticalOptions="Center"
                                                Text="{Binding Name}"></Label>
-                                            <Image Grid.Column="0"
-                                               Source="{Binding UrlPhoto}"
-                                               BackgroundColor="Transparent">
-                                            </Image>
-                                        </Grid>
-                                    </StackLayout>
-                                </Frame>
-                            </ViewCell>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
+                                                <ImageButton 
+                                                Grid.Column="2"
+                                                    HorizontalOptions="Center"
+                                                    Source="{Binding IsFavorite}"                                                    
+                                                    BackgroundColor="Transparent"
+                                                    Clicked="ImageButton_Clicked"
+                                                    Command="{Binding Path=BindingContext.starPokemon, Source={x:Reference PokemonView}}" CommandParameter="{Binding .}">
+                                                </ImageButton>
+                                            </Grid>
+                                        </StackLayout>
+                                    </Frame>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
                 </ListView>
             </ScrollView>
+            <StackLayout HeightRequest="80" BackgroundColor="#ff4040">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="80"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="80"/>
+                    </Grid.ColumnDefinitions>
+                    <Button
+                        Grid.Column ="0"
+                        Text="&lt;"
+                        HorizontalOptions="Center"
+                        TextColor="White"
+                        FontSize="Medium"
+                        BackgroundColor="Transparent"
+                        VerticalOptions="Center"
+                        Command="{Binding previousCommannd}">
+                    </Button>
+                    <Label
+                        Grid.Column ="1"
+                        Text="{Binding InfoList}"
+                        HorizontalOptions="Center"
+                        TextColor="White"
+                        FontSize="Medium"
+                        VerticalOptions="Center">
+                    </Label>
+                    <Button
+                        Grid.Column ="2"
+                        Text=">"
+                        HorizontalOptions="Center"
+                        TextColor="White"
+                        FontSize="Medium"
+                        BackgroundColor="Transparent"
+                        VerticalOptions="Center"
+                        Command="{Binding nextCommannd}">
+                    </Button>
+                </Grid>
+            </StackLayout>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

@@ -8,9 +8,7 @@ namespace Pokedex.Interface
 {
     public interface IPokemonService : IBaseService
     {
-        //Pokemon SearchPokemonByIdName(int id);
-        //IEnumerable<Pokemon> SearchPokemonByType(string type);
-        //Task<(bool success, ListPaginationInfo pokemonList)> SearchPokemonRange(int index);
-
+        Task<ListPaginationInfo> GetListRange(int index);
+        Task<Pokemon> GetPokemon(string pokemon);
     }
 }

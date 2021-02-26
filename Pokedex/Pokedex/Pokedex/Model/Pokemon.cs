@@ -15,8 +15,11 @@ namespace Pokedex.Model
         public Sprites Sprites { get; set; }
 
         [JsonProperty("pokemon")]
-        public  Pokemon PokemonAux { get; set; }
+        public Pokemon PokemonAux { get; set; }
         public string UrlPhoto => Sprites.Front_Default;
+        public string IsFavorite { get; set; }
+        public int Count { get; set; }
+
     }
     public class Sprites
     {

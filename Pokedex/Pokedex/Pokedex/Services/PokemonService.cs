@@ -1,5 +1,4 @@
 ﻿using Flurl.Http;
-using Newtonsoft.Json;
 using Pokedex.Configuration;
 using Pokedex.Interface;
 using Pokedex.Model;
@@ -18,6 +17,32 @@ namespace Pokedex.Services
         {
 
         }
-       
+
+        public async Task<ListPaginationInfo> GetListRange(int index)
+        {
+            try
+            {
+                string requesturl = $@"{UrlConfiguration.BaseUrl()}/{Controller}/?limit={UrlConfiguration.OffSet}&offset={index}";
+                return await requesturl.GetJsonAsync<ListPaginationInfo>();
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        public async Task<Pokemon> GetPokemon(string pokemon)
+        {
+            try
+            {
+                string requesturl = $@"{UrlConfiguration.BaseUrl()}/{Controller}/{pokemon}";
+                return await requesturl.GetJsonAsync<Pokemon>();
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
     }
 }
