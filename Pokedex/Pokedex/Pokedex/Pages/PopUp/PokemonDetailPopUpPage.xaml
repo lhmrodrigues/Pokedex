@@ -2,6 +2,8 @@
 <popup:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:popup="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             xmlns:renderedViews="clr-namespace:Sharpnado.Presentation.Forms.RenderedViews;assembly=Sharpnado.Presentation.Forms"
              x:Class="Pokedex.PokemonDetailPopUpPage">
     <popup:PopupPage.Content>
             <Frame CornerRadius="10" BackgroundColor="Transparent"
@@ -13,11 +15,33 @@
                     <Label Text="{Binding SelectedPokemon.Name}" FontSize="Large" TextColor="White" VerticalOptions="CenterAndExpand" HorizontalOptions="Center"></Label>
                 </Frame>
                 <StackLayout HeightRequest="200">
-                    <Image HorizontalOptions="FillAndExpand" 
+                    <renderedViews:HorizontalListView 
+                                  ItemsSource="{Binding PhotoList}"
+                                  ListLayout="Carousel"
+                                  WidthRequest="200" 
+                                  HeightRequest="200">
+                        <renderedViews:HorizontalListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <ffimageloading:CachedImage 
+                                        Grid.Column="0"
+                                        HorizontalOptions="Center" 
+                                        VerticalOptions="Center"
+                                        Source="{Binding Photo}"                                                    
+                                        DownsampleToViewSize="true">
+                                    </ffimageloading:CachedImage>
+                                </ViewCell>
+                            </DataTemplate>
+                        </renderedViews:HorizontalListView.ItemTemplate>
+                    </renderedViews:HorizontalListView>
+
+                    
+                    
+                    <!--<Image HorizontalOptions="FillAndExpand" 
                            VerticalOptions="FillAndExpand"
                            Source="{Binding SelectedPokemon.UrlPhoto}"
                            BackgroundColor="Transparent">
-                    </Image>
+                    </Image>-->
                 </StackLayout>
                 <StackLayout>
                     <Grid>

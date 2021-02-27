@@ -15,6 +15,8 @@
     <PackageReference Include="FreshMvvm" Version="3.0.0" />
     <PackageReference Include="PropertyChanged.Fody" Version="3.3.2" />
     <PackageReference Include="Rg.Plugins.Popup" Version="2.0.0.10" />
+    <PackageReference Include="Sharpnado.Forms.HorizontalListView" Version="1.8.1" />
+    <PackageReference Include="Sharpnado.Presentation.Forms" Version="1.7.1" />
     <PackageReference Include="System.Threading.Tasks" Version="4.3.0" />
     <PackageReference Include="Xamarin.FFImageLoading" Version="2.4.11.982" />
     <PackageReference Include="Xamarin.FFImageLoading.Forms" Version="2.4.11.982" />

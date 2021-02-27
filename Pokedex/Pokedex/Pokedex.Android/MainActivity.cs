@@ -8,6 +8,7 @@ using Android.Widget;
 using Android.OS;
 using System.Globalization;
 using FFImageLoading.Forms.Platform;
+using Sharpnado.Presentation.Forms.Droid;
 
 namespace Pokedex.Droid
 {
@@ -21,12 +22,16 @@ namespace Pokedex.Droid
             CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("pt-BR");
 
             base.OnCreate(savedInstanceState);
-            CachedImageRenderer.Init(enableFastRenderer: true);
 
+            CachedImageRenderer.Init(enableFastRenderer: true);
             Rg.Plugins.Popup.Popup.Init(this);
+
 
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
+
+            SharpnadoInitializer.Initialize();
+
             LoadApplication(new App());
         }
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)

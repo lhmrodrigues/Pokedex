@@ -13,6 +13,7 @@ namespace Pokedex.Model
         public int Weight { get; set; }
         public IEnumerable<Types> Types { get; set; }
         public Sprites Sprites { get; set; }
+        public PhotoAux AuxPhotos { get; set; }
 
         [JsonProperty("pokemon")]
         public Pokemon PokemonAux { get; set; }

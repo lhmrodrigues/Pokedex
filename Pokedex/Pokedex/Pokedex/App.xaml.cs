@@ -26,7 +26,6 @@ namespace Pokedex
         {
             FreshIOC.Container.Register<IPokemonService, PokemonService>();
             FreshIOC.Container.Register<ITypeService, TypeService>();
-
         }
 
 
