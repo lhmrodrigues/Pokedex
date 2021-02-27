@@ -24,11 +24,14 @@
                             ItemsSource="{Binding ObservableTypeList}" 
                             SelectedItem="{Binding Pesquisa}" 
                             TextColor="White"
-                            TitleColor="Gray"
+                            TitleColor="White"
                             Title="Select Type"/>
                     <Button Grid.Column="1" 
                             Text="OK" 
-                            BackgroundColor="LightYellow" 
+                            FontAttributes="Bold"
+                            CornerRadius="10"
+                            TextColor="#ff4040"
+                            BackgroundColor="White" 
                             Margin="2"
                             Command="{Binding typeSearchCommannd}">
                     </Button>
@@ -99,7 +102,7 @@
                     </Button>
                     <Label
                         Grid.Column ="1"
-                        Text="{Binding InfoList}"
+                        Text="{Binding TextInfo}"
                         HorizontalOptions="Center"
                         TextColor="White"
                         FontSize="Medium"

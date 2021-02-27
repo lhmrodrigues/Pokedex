@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -19,19 +20,21 @@ namespace Pokedex
 
         private readonly IPokemonService _pokemonService;
         private readonly ITypeService _typeService;
-
-        public ObservableCollection<Pokemon> ObservablePokemonList { get; set; }
         public ObservableCollection<string> ObservableTypeList { get; set; }
-        public string InfoList { get; set; }
+        public ObservableCollection<Pokemon> ObservablePokemonList { get; set; }
+        public List<Results> PokemonFilterList { get; set; }
+        public bool IsFilter { get; set; } = false;
+        public string TextInfo { get; set; }
         public string Pesquisa { get; set; }
-        public int IndexList { get; set; }
         public int TotalPokemon { get; set; }
+        public int IndexAtual { get; set; }
+        public int IndexNext { get; set; }
 
         public ICommand nextCommannd => new Command(async () => await NextCommannd());
         public ICommand previousCommannd => new Command(async () => await PreviousCommannd());
         public ICommand typeSearchCommannd => new Command(async () => await TypeSearchCommannd());
-        public ICommand pokemmonDetails => new Command<Pokemon>(async (pokemonDetails) => await PokemonDetailsAsync(pokemonDetails)); // mudar a chama
-        public ICommand starPokemon => new Command<Pokemon>(async (pokemonDetails) => await StarPokemon(pokemonDetails)); // mudar a chama
+        public ICommand pokemmonDetails => new Command<Pokemon>(async (pokemonDetails) => await PokemonDetailsAsync(pokemonDetails));
+        public ICommand starPokemon => new Command<Pokemon>(async (pokemonDetails) => await StarPokemon(pokemonDetails));
 
         public PokemonPageModel(IPokemonService pokemonService,
             ITypeService typeService)
@@ -39,45 +42,12 @@ namespace Pokedex
             _pokemonService = pokemonService;
             _typeService = typeService;
         }
-
         public override async void Init(object initData)
         {
+            IndexAtual = 0;
+            IndexNext = 20;
             SetTypeList();
-            SearchRangeAndSetValues(0);
-        }
-        public async void SearchRangeAndSetValues(int index)
-        {
-            if (IsBusy) return;
-
-            try
-            {
-                IsBusy = true;
-
-                List<Pokemon> pokemonList = new List<Pokemon>();
-                var resultRange = await _pokemonService.GetListRange(index);
-
-                InfoList = $"{index + 1} to {index + 20}";
-                TotalPokemon = resultRange.Count;
-
-                foreach (var results in resultRange.Results)
-                {
-                    Pokemon pokemon = await _pokemonService.GetPokemon(results.Name);
-                    pokemon.Name = pokemon.Name.ToUpper();
-                    pokemon.Url = pokemon.Sprites.Front_Default;
-                    pokemon.IsFavorite = "star.png";
-                    pokemonList.Add(pokemon);
-                }
-
-                ObservablePokemonList = new ObservableCollection<Pokemon>(pokemonList);
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-            }
-            finally
-            {
-                IsBusy = false;
-            }
+            SearchRangeAndSetValues();
         }
         public async void SetTypeList()
         {
@@ -86,6 +56,7 @@ namespace Pokedex
                 List<string> aux = new List<string>();
                 ListPaginationInfo typePokemonList = await _typeService.GetListType();
 
+                aux.Add("Select Type");
                 foreach (var type in typePokemonList.Results)
                 {
                     aux.Add(type.Name.ToUpper());
@@ -97,18 +68,98 @@ namespace Pokedex
             {
                 Debug.WriteLine(ex.Message);
             }
+        } 
+        public async void SearchRangeAndSetValues()
+        {
+            try
+            {
+                var resultRange = await _pokemonService.GetListRange(IndexAtual+1);
+
+                SetPokemonsOnList(resultRange.Results);
+                TotalPokemon = resultRange.Count;
+
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+        }
+        private async void SetPokemonsOnList(IEnumerable<Results> listPaginationInfo)
+        {
+            if (IsBusy) return;
+            try
+            {
+                IsBusy = true;
+
+                TextInfo = $"{IndexAtual + 1} to {IndexNext}";
+
+                List<Pokemon> pokemonList = new List<Pokemon>();
+
+                foreach (var results in listPaginationInfo)
+                {
+                    Pokemon pokemon = await _pokemonService.GetPokemon(results.Name);
+                    pokemon.Name = pokemon.Name.ToUpper();
+                    pokemon.Url = pokemon.Sprites.Front_Default;
+                    pokemon.IsFavorite = "star.png";
+                    pokemonList.Add(pokemon);
+                }
+
+                ObservablePokemonList = new ObservableCollection<Pokemon>(pokemonList);
+            }
+            catch (Exception)
+            {
+
+            }
+            finally
+            {
+                IsBusy = false;
+            }
         }
         public async void GetListPokemonType()
         {
-            //await _typeService.GetListPokemonType(Pesquisa);
+            PokemonFilterList = new List<Results>();
+
+            PokemonType pokemonType = await _typeService.GetListPokemonType(Pesquisa);
+            TotalPokemon = pokemonType.Pokemon.Count();
+
+            foreach (var item in pokemonType.Pokemon)
+                PokemonFilterList.Add(new Results
+                {
+                    Name = item.PokemonAux.Name,
+                    Url = item.PokemonAux.Url
+
+                });
+
+            SetPokemonsOnList(PokemonFilterList.GetRange(IndexAtual, IndexNext));
+
         }
         private async Task TypeSearchCommannd()
         {
-            GetListPokemonType();
-        }
-        private async Task PokemonDetailsAsync(Pokemon pokemon)
-        {
-            await CoreMethods.PushPopupPageModel<PokemonDetailPopUpPageModel>(pokemon);
+            if (IsBusy) return;
+            try
+            {
+
+                IsBusy = true;
+                IndexAtual = 0;
+                IndexNext = 20;
+                if (Pesquisa == "Select Type")
+                {
+                    IsFilter = false;
+                    SearchRangeAndSetValues();
+                    return;
+                }
+
+                IsFilter = true;
+                GetListPokemonType();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+            finally
+            {
+                IsBusy = false;
+            }
         }
         private async Task StarPokemon(Pokemon pokemon)
         {
@@ -119,19 +170,51 @@ namespace Pokedex
         }
         private async Task NextCommannd()
         {
-            IndexList += 20;
-            if (IndexList > TotalPokemon)
+            int result = 20;
+            if (IndexNext > TotalPokemon)
+            {
+                IndexAtual = TotalPokemon;
                 return;
+            }
 
-            SearchRangeAndSetValues(IndexList);
+            IndexAtual += 20;
+            IndexNext += 20;
+            if (IsFilter)
+            {
+                if (IndexAtual + 20 > TotalPokemon)
+                    result = TotalPokemon - IndexAtual;
+
+                SetPokemonsOnList(PokemonFilterList.GetRange(IndexAtual, result));
+            }
+            else
+            {
+                SearchRangeAndSetValues();
+            }
         }
         private async Task PreviousCommannd()
         {
-            IndexList -= 20;
-            if (IndexList < 0)
-                IndexList = 0;
+            int result = 20;
 
-            SearchRangeAndSetValues(IndexList);
+            if (IndexAtual <= 0)
+            {
+                IndexAtual = 0;
+                return;
+            }
+
+            IndexAtual -= 20;
+            IndexNext -= 20;
+            if (IsFilter)
+            {
+                SetPokemonsOnList(PokemonFilterList.GetRange(IndexAtual, 20));
+            }
+            else
+            {
+                SearchRangeAndSetValues();
+            }
+        }
+        private async Task PokemonDetailsAsync(Pokemon pokemon)
+        {
+            await CoreMethods.PushPopupPageModel<PokemonDetailPopUpPageModel>(pokemon);
         }
     }
 }

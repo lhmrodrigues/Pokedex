@@ -16,5 +16,10 @@ namespace Pokedex
 
             Type = SelectedPokemon.Types.ToList()[0].Type.Name.ToUpper();
         }
+
+        private void SetPhotosAtList()
+        {
+
+        }
     }
 }
