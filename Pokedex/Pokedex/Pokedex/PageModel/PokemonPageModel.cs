@@ -3,10 +3,12 @@ using Pokedex.Configuration;
 using Pokedex.Interface;
 using Pokedex.Model;
 using Pokedex.Util;
+using SQLite;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,12 +25,14 @@ namespace Pokedex
         public ObservableCollection<string> ObservableTypeList { get; set; }
         public ObservableCollection<Pokemon> ObservablePokemonList { get; set; }
         public List<Results> PokemonFilterList { get; set; }
+        public List<Pokemon> PokemonCache { get; set; }
         public bool IsFilter { get; set; } = false;
         public string TextInfo { get; set; }
         public string Pesquisa { get; set; }
         public int TotalPokemon { get; set; }
         public int IndexAtual { get; set; }
         public int IndexNext { get; set; }
+
 
         public ICommand nextCommannd => new Command(async () => await NextCommannd());
         public ICommand previousCommannd => new Command(async () => await PreviousCommannd());
@@ -68,12 +72,12 @@ namespace Pokedex
             {
                 Debug.WriteLine(ex.Message);
             }
-        } 
+        }
         public async void SearchRangeAndSetValues()
         {
             try
             {
-                var resultRange = await _pokemonService.GetListRange(IndexAtual+1);
+                var resultRange = await _pokemonService.GetListRange(IndexAtual + 1);
 
                 SetPokemonsOnList(resultRange.Results);
                 TotalPokemon = resultRange.Count;
@@ -90,6 +94,7 @@ namespace Pokedex
             try
             {
                 IsBusy = true;
+                PokemonCache = Db.Table<Pokemon>().ToList();
 
                 TextInfo = $"{IndexAtual + 1} to {IndexNext}";
 
@@ -100,15 +105,20 @@ namespace Pokedex
                     Pokemon pokemon = await _pokemonService.GetPokemon(results.Name);
                     pokemon.Name = pokemon.Name.ToUpper();
                     pokemon.Url = pokemon.Sprites.Front_Default;
-                    pokemon.IsFavorite = "star.png";
+
+                    if (PokemonCache.Where(x => x.Id == pokemon.Id).Any())
+                        pokemon.IsFavorite = "starYellow.png";
+                    else
+                        pokemon.IsFavorite = "star.png";
+
                     pokemonList.Add(pokemon);
                 }
 
                 ObservablePokemonList = new ObservableCollection<Pokemon>(pokemonList);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                Debug.WriteLine(ex.Message);
             }
             finally
             {
@@ -123,12 +133,15 @@ namespace Pokedex
             TotalPokemon = pokemonType.Pokemon.Count();
 
             foreach (var item in pokemonType.Pokemon)
+            {
                 PokemonFilterList.Add(new Results
                 {
                     Name = item.PokemonAux.Name,
                     Url = item.PokemonAux.Url
 
                 });
+
+            }
 
             SetPokemonsOnList(PokemonFilterList.GetRange(IndexAtual, IndexNext));
 
@@ -164,9 +177,15 @@ namespace Pokedex
         private async Task StarPokemon(Pokemon pokemon)
         {
             if (pokemon.IsFavorite == "star.png")
+            {
                 pokemon.IsFavorite = "starYellow.png";
+                Db.Insert(pokemon);
+            }
             else
+            {
                 pokemon.IsFavorite = "star.png";
+                Db.Delete(pokemon);
+            }
         }
         private async Task NextCommannd()
         {
