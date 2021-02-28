@@ -36,7 +36,7 @@ Frameworks used in the project:
 <p>✏️ Sharpnado: Used to construct Horizontal Lit View </p>
 <p>✏️ Fody: Used to update data on the screen without reloading the screen </p>
 <p>✏️ FreshMvvm: Used to create binding between Models, Pages and PageModel </p>
-<p>✏️ Rg.Plugins.PopUp: Utilizado para personalizar PopUps </p>
+<p>✏️ Rg.Plugins.PopUp: Used to customize PopUps </p>
 
 ## 📱 APK
 
