@@ -47,7 +47,7 @@ Download app:
 <br />
 <br />
 
-<p>Made with ♥ by Luis Rodrigues :wave: [Get in touch!](https://www.linkedin.com/in/luis-henrique-miranda-rodrigues-b12580155/)</p>
+Made with ♥ by Luis Rodrigues :wave: [Get in touch!](https://www.linkedin.com/in/luis-henrique-miranda-rodrigues-b12580155/)
 
 [flurl]: https://flurl.dev/
 [sql]: https://github.com/praeclarum/sqlite-net
