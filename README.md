@@ -17,7 +17,6 @@ Application layout:
   <img src="https://github.com/lhmrodrigues/Pokedex/blob/main/Images/info.png" width="300" /> 
 </p>
 
-
 ## 📦 Packages
 
 Frameworks used in the project:
@@ -38,8 +37,16 @@ Frameworks used in the project:
 <p>✏️ Fody: Used to update data on the screen without reloading the screen </p>
 <p>✏️ FreshMvvm: Used to create binding between Models, Pages and PageModel </p>
 <p>✏️ Rg.Plugins.PopUp: Utilizado para personalizar PopUps </p>
+
+## 📱 APK
+
+Download app:
+
+<p> 🟢 Android: https://drive.google.com/file/d/10huuubr2qOyjN5cOwNhkeet-uCCVQt4Y/view?usp=sharing </p>
+
 <br />
 <br />
+
 <p>Made with ♥ by Luis Rodrigues :wave: [Get in touch!](https://www.linkedin.com/in/luis-henrique-miranda-rodrigues-b12580155/)</p>
 
 [flurl]: https://flurl.dev/
