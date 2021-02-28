@@ -68,6 +68,8 @@
     <Compile Include="SplashActivity.cs" />
   </ItemGroup>
   <ItemGroup>
+    <AndroidAsset Include="Assets\ReggaeOne-Regular.ttf" />
+    <AndroidAsset Include="Assets\pokemon.ttf" />
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />
     <None Include="Properties\AndroidManifest.xml" />

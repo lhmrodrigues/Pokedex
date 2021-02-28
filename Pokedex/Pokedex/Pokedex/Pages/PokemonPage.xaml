@@ -6,8 +6,9 @@
     <NavigationPage.TitleView>
         <StackLayout HorizontalOptions="FillAndExpand">
             <Label Text="Pokedex" 
+                   FontFamily="{StaticResource Pokemon}"
                    HorizontalTextAlignment="Center"
-                   FontSize="Large"
+                   FontSize="40"
                    TextColor="White"/>
         </StackLayout>
     </NavigationPage.TitleView>
@@ -61,14 +62,15 @@
                                                Source="{Binding UrlPhoto}"
                                                BackgroundColor="Transparent">
                                                 </Image>
-                                                <Label Grid.Column="1"
-                                               FontSize="Medium"
-                                               HorizontalOptions="StartAndExpand"
-                                               Margin="30,0,0,0"
-                                               VerticalOptions="Center"
-                                               Text="{Binding Name}"></Label>
-                                                <ImageButton 
-                                                Grid.Column="2"
+                                            <Label Grid.Column="1"
+                                                   FontSize="Medium"
+                                                   FontFamily="{StaticResource GoogleFont}"
+                                                   HorizontalOptions="StartAndExpand"
+                                                   Margin="30,0,0,0"
+                                                   VerticalOptions="Center"
+                                                   Text="{Binding Name}"></Label>
+                                            <ImageButton                                                     
+                                                    Grid.Column="2"
                                                     HorizontalOptions="Center"
                                                     Source="{Binding IsFavorite}"                                                    
                                                     BackgroundColor="Transparent"

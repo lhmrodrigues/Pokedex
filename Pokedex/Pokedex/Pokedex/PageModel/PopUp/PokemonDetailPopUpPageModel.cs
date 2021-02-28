@@ -11,8 +11,6 @@ namespace Pokedex
     {
         public Pokemon SelectedPokemon { get; set; }
         public ObservableCollection<PhotoAux> PhotoList { get; set; }
-
-
         public string Type { get; set; }
         public override async void Init(object initData)
         {
@@ -20,7 +18,6 @@ namespace Pokedex
             SetPhotosAtList();
             Type = SelectedPokemon.Types.ToList()[0].Type.Name.ToUpper();
         }
-
         private void SetPhotosAtList()
         {
             List<PhotoAux> listAux = new List<PhotoAux>();

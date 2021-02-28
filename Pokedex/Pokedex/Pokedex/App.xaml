@@ -3,6 +3,19 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Pokedex.App">
     <Application.Resources>
-
+        <ResourceDictionary>
+            <OnPlatform x:TypeArguments="x:String" x:Key="GoogleFont">
+                <On Platform="Android" Value="ReggaeOne-Regular.ttf#Regular" />
+            </OnPlatform>
+            <OnPlatform x:TypeArguments="x:String" x:Key="GoogleFontName">
+                <On Platform="Android" Value="DotGothic16-Regular.ttf#Regular" />
+            </OnPlatform>
+            <OnPlatform x:TypeArguments="x:String" x:Key="Pokemon">
+                <On Platform="Android" Value="pokemon.ttf#Regular" />
+            </OnPlatform>
+            <OnPlatform x:TypeArguments="x:String" x:Key="PokemonSolid">
+                <On Platform="Android" Value="pokemonSolid.ttf#Regular" />
+            </OnPlatform>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

@@ -77,7 +77,7 @@ namespace Pokedex
         {
             try
             {
-                var resultRange = await _pokemonService.GetListRange(IndexAtual + 1);
+                var resultRange = await _pokemonService.GetListRange(IndexAtual);
 
                 SetPokemonsOnList(resultRange.Results);
                 TotalPokemon = resultRange.Count;
