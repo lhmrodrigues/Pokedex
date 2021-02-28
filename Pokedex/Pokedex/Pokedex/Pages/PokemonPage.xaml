@@ -32,7 +32,7 @@
                             FontAttributes="Bold"
                             CornerRadius="10"
                             TextColor="#ff4040"
-                            BackgroundColor="White" 
+                            BackgroundColor="#ffffff" 
                             Margin="2"
                             Command="{Binding typeSearchCommannd}">
                     </Button>
