@@ -42,7 +42,7 @@ Frameworks used in the project:
 
 Download app:
 
-<p> 🟢 Android: https://drive.google.com/file/d/10huuubr2qOyjN5cOwNhkeet-uCCVQt4Y/view?usp=sharing </p>
+<p> 🟢 Android: https://drive.google.com/file/d/1JHQlJrqKnH4MEpuYYBP5UO0NX0I-HOPD/view?usp=sharing </p>
 
 <br />
 <br />

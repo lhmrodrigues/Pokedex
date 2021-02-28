@@ -155,7 +155,7 @@ namespace Pokedex
                 IsBusy = true;
                 IndexAtual = 0;
                 IndexNext = 20;
-                if (Pesquisa == "Select Type")
+                if (Pesquisa == "Select Type" || string.IsNullOrEmpty(Pesquisa))
                 {
                     IsFilter = false;
                     SearchRangeAndSetValues();
