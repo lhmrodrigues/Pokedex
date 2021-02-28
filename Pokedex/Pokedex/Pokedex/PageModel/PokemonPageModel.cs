@@ -58,7 +58,7 @@ namespace Pokedex
             try
             {
                 List<string> aux = new List<string>();
-                ListPaginationInfo typePokemonList = await _typeService.GetListType();
+                ListPaginationInfo typePokemonList = await _typeService.GetFromApi<ListPaginationInfo>(string.Empty);
 
                 aux.Add("Select Type");
                 foreach (var type in typePokemonList.Results)
@@ -77,7 +77,7 @@ namespace Pokedex
         {
             try
             {
-                var resultRange = await _pokemonService.GetListRange(IndexAtual);
+                var resultRange = await _pokemonService.GetFromApi<ListPaginationInfo>($"?limit={UrlConfiguration.OffSet}&offset={IndexAtual}");
 
                 SetPokemonsOnList(resultRange.Results);
                 TotalPokemon = resultRange.Count;
@@ -102,7 +102,7 @@ namespace Pokedex
 
                 foreach (var results in listPaginationInfo)
                 {
-                    Pokemon pokemon = await _pokemonService.GetPokemon(results.Name);
+                    Pokemon pokemon = await _pokemonService.GetFromApi<Pokemon>($"{results.Name}");
                     pokemon.Name = pokemon.Name.ToUpper();
                     pokemon.Url = pokemon.Sprites.Front_Default;
 
@@ -129,7 +129,8 @@ namespace Pokedex
         {
             PokemonFilterList = new List<Results>();
 
-            PokemonType pokemonType = await _typeService.GetListPokemonType(Pesquisa);
+            PokemonType pokemonType = await _typeService.GetFromApi<PokemonType>($"{Pesquisa.ToLower()}");
+
             TotalPokemon = pokemonType.Pokemon.Count();
 
             foreach (var item in pokemonType.Pokemon)
@@ -144,7 +145,6 @@ namespace Pokedex
             }
 
             SetPokemonsOnList(PokemonFilterList.GetRange(IndexAtual, IndexNext));
-
         }
         private async Task TypeSearchCommannd()
         {

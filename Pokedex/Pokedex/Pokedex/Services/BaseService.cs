@@ -21,7 +21,7 @@ namespace Pokedex.Service
         {
             try
             {
-                string requesturl = UrlConfiguration.BaseUrl() + Controller + url;
+                string requesturl = $"{UrlConfiguration.BaseUrl()}/{Controller}/{url}";
                 return await requesturl.GetJsonAsync<T>();
             }
             catch (FlurlHttpException ex)

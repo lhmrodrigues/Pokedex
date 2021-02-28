@@ -8,7 +8,6 @@ namespace Pokedex.Interface
 {
     public interface ITypeService : IBaseService
     {
-        Task<ListPaginationInfo> GetListType();
-        Task<PokemonType> GetListPokemonType(string type);
+
     }
 }
