@@ -68,6 +68,12 @@
     <None Include="Entitlements.plist" />
     <None Include="Info.plist" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <None Include="pokemon.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ReggaeOne-Regular.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />
@@ -134,9 +140,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\screenshots\star.png" />
+    <BundleResource Include="Resources\star.png" />
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\screenshots\starYellow.png" />
+    <BundleResource Include="Resources\starYellow.png" />
   </ItemGroup>
 </Project>
