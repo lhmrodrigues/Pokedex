@@ -12,9 +12,9 @@
 Application layout:
 
 <p float="left">
-  <img src="https://github.com/lhmrodrigues/Pokedex/blob/main/Images/splash.png" width="300" />
-  <img src="https://github.com/lhmrodrigues/Pokedex/blob/main/Images/initial.png" width="300" />  
-  <img src="https://github.com/lhmrodrigues/Pokedex/blob/main/Images/info.png" width="300" /> 
+  <img src="https://github.com/lhmrodrigues/Pokedex/blob/main/Images/splash.png" width="200" />
+  <img src="https://github.com/lhmrodrigues/Pokedex/blob/main/Images/initial.png" width="200" />  
+  <img src="https://github.com/lhmrodrigues/Pokedex/blob/main/Images/info.png" width="200" /> 
 </p>
 
 ## 📦 Packages
