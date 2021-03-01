@@ -63,7 +63,8 @@ namespace Pokedex
                 aux.Add("Select Type");
                 foreach (var type in typePokemonList.Results)
                 {
-                    aux.Add(type.Name.ToUpper());
+                    if (type.Name != "unknown")
+                        aux.Add(type.Name.ToUpper());
                 }
 
                 ObservableTypeList = new ObservableCollection<string>(aux);

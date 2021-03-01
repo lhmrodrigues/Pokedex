@@ -33,7 +33,7 @@ Frameworks used in the project:
  
 <p>✏️ Flurl: Used to make Http Requests </p>
 <p>✏️ Sqlite-net-pcl: Used to save cached data </p>
-<p>✏️ Sharpnado: Used to construct Horizontal Lit View </p>
+<p>✏️ Sharpnado: Used to construct Horizontal List View </p>
 <p>✏️ Fody: Used to update data on the screen without reloading the screen </p>
 <p>✏️ FreshMvvm: Used to create binding between Models, Pages and PageModel </p>
 <p>✏️ Rg.Plugins.PopUp: Used to customize PopUps </p>
@@ -42,7 +42,7 @@ Frameworks used in the project:
 
 Download app:
 
-<p> 🟢 Android: https://drive.google.com/file/d/1JHQlJrqKnH4MEpuYYBP5UO0NX0I-HOPD/view?usp=sharing </p>
+<p> 🟢 Android: https://drive.google.com/file/d/1wum6Ws42TcnsYuZdqsB4p4WhjLenj8Hd/view?usp=sharing </p>
 
 <br />
 <br />
